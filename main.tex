@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{pgfplots}
+\usepackage{longtable}
+\usepackage{multicol}
+\usepackage{booktabs, colortbl}
+\usepackage{pgfplotstable}
+\pgfplotsset{width=12cm, compat=1.9}
+\newsavebox\ltmcbox
+\newenvironment{fakelongtable}
+        {\setbox\ltmcbox\vbox\bgroup
+        \csname @twocolumnfalse\endcsname
+        \csname col@number\endcsname\csname @ne\endcsname}
+        {\unskip\unpenalty\unpenalty\egroup\unvbox\ltmcbox}
+
+\title{Sprawozdanie}
+\author{Julia Strużyńska 272981}
+\date{December 2022}
+
+\begin{document}
+
+\maketitle
+\section{Wprowadzenie Tematyczne}
+Spadek swobodny to ruch ciała, który odbywa się pod wpływem siły grawitacji. Rozpoczyna się od spoczynku tj. z prędkością początkową równą zero. W pobliżu Ziemi dla ciał stosunkowo gęstych o aerodynamicznym kształcie spadek swobodny można traktować jako ruch jednostajnie przyspieszony z przyspieszeniem ziemskim g. Ruch można wtedy opisać za pomocą równania:
+
+\begin{equation}
+h(t)=h_0-\frac{(gt^2)} {2}
+\end{equation}
+
+gdzie:
+\begin{itemize}
+	\item \(h(t)\) – wysokość, na jakiej znajduje się ciało po czasie \(t\)
+	\item \(h_0\) – wysokość z jakiej spada ciało
+	\item \(t\) – czas spadania
+	\item \(g\) – przyspieszenie ziemskie \(9,81 \frac{\text{m}} {\text{s}^2}\)
+\end{itemize}
+
+\maketitle
+\section{Opis eksperymentu}
+
+Tu znajduje się opis eksperymentu. Ładna ilustracja obrazująca spadek swobodny ciał na przykładzie monet (\ref{fig:spadek.swobodny}).
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=3cm]{monety.jpg}
+    \caption{Spadające monety}
+    \label{fig:spadek.swobodny}
+\end{figure}
+
+\maketitle
+\section{Wyniki Pomiarów}
+Tu znajdują się wyniki pomiarów. Tabela zawiera pomiary wysokości $h$ w czasie $t$.
+
+\begin{multicols}{3}
+\pgfplotstabletypeset[
+begin table=\begin{fakelongtable}\begin{longtable},
+end table=\end{longtable}\end{fakelongtable},
+every even row/.style={before row={\rowcolor[gray]{0.9}}},
+every head row/.style={before row=\toprule,after row=\midrule},
+every head row/.append style={after row=\endhead},
+every last row/.style={after row=\bottomrule},
+]{csv.txt}
+
+\end{multicols}
+
+\newpage
+
+\maketitle
+\section{Wnioski}
+Tu znajdują się wnioski.
+
+\begin{tikzpicture}
+\begin{axis}[ axis lines = left, 
+              xlabel = {\(t [s]\)},
+              ylabel = {\(h [m]\)},
+              enlargelimits = false,]
+
+\addplot [ domain=0:10, 
+           samples=100, 
+           color=red,]
+         {x^2*9.81*0.5};
+\addlegendentry{\(t^2*9.81*0.5\)}
+\addplot+[only marks, 
+          color=blue,
+          mark=diamond,
+          mark size=1.0pt]
+table[meta=h]{csv.txt};
+\end{axis}
+\end{tikzpicture}
+\end{document}
+
